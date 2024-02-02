@@ -8,6 +8,25 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+	interface IPessoa {
+		id: number;
+		nome: string;
+		salario: number;
+		valorAlimentacao: number;
+		porcentagemTaxaInss: number;
+		porcentagemTaxaAlimentacao: number;
+	}
+
+	interface IDespesa {
+		id: number;
+		valor: number;
+		descricao: string;
+	}
+
+	export type jsonBinType = {
+		pessoas: Array<IPessoa>;
+		despesas: Array<IDespesa>;
+	};
 }
 
 export {};
