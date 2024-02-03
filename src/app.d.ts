@@ -15,6 +15,7 @@ declare global {
 		valorAlimentacao: number;
 		porcentagemTaxaInss: number;
 		porcentagemTaxaAlimentacao: number;
+		porcentagemTaxaPassagem: number;
 	}
 
 	interface IDespesa {

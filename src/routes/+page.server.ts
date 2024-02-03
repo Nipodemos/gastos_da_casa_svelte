@@ -7,6 +7,7 @@ export const load: PageServerLoad = async () => {
 	if (!apiPassword || !apiBinKey) {
 		throw new Error('API_PASSWORD ou API_BIN_KEY não definidos');
 	}
+	// site pra eu acessar o bin: https://extendsclass.com/json-storage.html
 	const res = await fetch('https://json.extendsclass.com/bin/' + apiBinKey, {
 		method: 'GET',
 		headers: {
@@ -15,6 +16,6 @@ export const load: PageServerLoad = async () => {
 		}
 	});
 	const jsonBin: jsonBinType = await res.json();
-	console.log('jsonBin :>> ', jsonBin);
+
 	return jsonBin;
 };
