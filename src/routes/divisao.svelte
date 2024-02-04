@@ -6,7 +6,6 @@
 	}
 	let { divisaoStore } = $props<Props>();
 	let pessoas = divisaoStore.pessoas;
-	let despesas = divisaoStore.despesas;
 	const formatter = Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 </script>
 
@@ -18,7 +17,7 @@
 			<h5 class="card-title">{pessoa.nome}</h5>
 		</div>
 		<div class="card-body">
-			Valor: {formatter.format(divisaoStore.valorPorPessoa(pessoa))}
+			Valor: {formatter.format(divisaoStore.getValorPorPessoa(pessoa))}
 		</div>
 	</div>
 {/each}

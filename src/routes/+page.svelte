@@ -10,9 +10,7 @@
 </script>
 
 <div class="container">
-	<div class="despesas">
-		<Despesas despesas={data.despesas} />
-	</div>
+	<div class="despesas"><Despesas {divisaoStore} /></div>
 	<div class="divisao"><Divisao {divisaoStore} /></div>
 	<div class="pessoas"><Pessoas {divisaoStore} /></div>
 </div>

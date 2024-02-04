@@ -1,24 +1,28 @@
 export class DivisaoStore {
-	public valorPorPessoa(pessoa: IPessoa) {
-		const valorTotalDespesas = this.valorTotalDespesas();
-		const valorTotalReceitas = this.valorTotalReceitas();
-		const salarioLiquido = this.salarioLiquido(pessoa);
+	constructor(
+		public pessoas: IPessoa[],
+		public despesas: IDespesa[]
+	) {}
+	public getValorPorPessoa(pessoa: IPessoa) {
+		const valorTotalDespesas = this.getValorTotalDespesas();
+		const valorTotalReceitas = this.getValorTotalReceitas();
+		const salarioLiquido = this.getSalarioLiquido(pessoa);
 
 		const porcentagemDaPessoa = Math.round((salarioLiquido / valorTotalReceitas) * 100);
 
 		return Math.round((valorTotalDespesas / 100) * porcentagemDaPessoa);
 	}
 
-	public sobraPorPessoa(pessoa: IPessoa) {
-		const valorPorPessoa = this.valorPorPessoa(pessoa);
-		const salarioLiquido = this.salarioLiquido(pessoa);
+	public getSobraPorPessoa(pessoa: IPessoa) {
+		const valorPorPessoa = this.getValorPorPessoa(pessoa);
+		const salarioLiquido = this.getSalarioLiquido(pessoa);
 		return salarioLiquido - valorPorPessoa;
 	}
 
-	public salarioLiquido(pessoa: IPessoa) {
-		const valorInss = this.valorInssPorPessoa(pessoa);
-		const valorTaxaAlimentacao = this.valorTaxaAlimentacaoPorPessoa(pessoa);
-		const valorTaxaPassagem = this.valorTaxaPassagemPorPessoa(pessoa);
+	public getSalarioLiquido(pessoa: IPessoa) {
+		const valorInss = this.getValorInssPorPessoa(pessoa);
+		const valorTaxaAlimentacao = this.getValorTaxaAlimentacaoPorPessoa(pessoa);
+		const valorTaxaPassagem = this.getValorTaxaPassagemPorPessoa(pessoa);
 		const salarioLiquido =
 			pessoa.salario -
 			valorInss -
@@ -28,33 +32,38 @@ export class DivisaoStore {
 		return salarioLiquido;
 	}
 
-	public valorTotalDespesas() {
+	public getValorTotalDespesas() {
 		return this.despesas.reduce((acc, despesa) => acc + despesa.valor, 0);
 	}
 
-	public valorTotalReceitas() {
+	public getValorTotalReceitas() {
 		return this.pessoas.reduce((acc, pessoa) => {
-			const salarioLiquido = this.salarioLiquido(pessoa);
+			const salarioLiquido = this.getSalarioLiquido(pessoa);
 			return acc + salarioLiquido;
 		}, 0);
 	}
 
-	public valorInssPorPessoa(pessoa: IPessoa) {
+	public getValorInssPorPessoa(pessoa: IPessoa) {
 		if (pessoa.porcentagemTaxaInss == 0) return 0;
 		return (pessoa.salario / 100) * pessoa.porcentagemTaxaInss;
 	}
 
-	public valorTaxaAlimentacaoPorPessoa(pessoa: IPessoa) {
+	public getValorTaxaAlimentacaoPorPessoa(pessoa: IPessoa) {
 		if (pessoa.porcentagemTaxaAlimentacao == 0) return 0;
 		return (pessoa.salario / 100) * pessoa.porcentagemTaxaAlimentacao;
 	}
 
-	public valorTaxaPassagemPorPessoa(pessoa: IPessoa) {
+	public getValorTaxaPassagemPorPessoa(pessoa: IPessoa) {
 		if (pessoa.porcentagemTaxaPassagem == 0) return 0;
 		return (pessoa.salario / 100) * pessoa.porcentagemTaxaPassagem;
 	}
-	constructor(
-		public pessoas: IPessoa[],
-		public despesas: IDespesa[]
-	) {}
+
+	public adicionarNovaDespesa(despesa: IDespesa) {
+		this.despesas.push(despesa);
+	}
+
+	public alterarDespesa(despesa: IDespesa) {
+		const index = this.despesas.findIndex((d) => d.id === despesa.id);
+		this.despesas[index] = despesa;
+	}
 }

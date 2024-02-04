@@ -1,12 +1,53 @@
 <script lang="ts">
+	import type { DivisaoStore } from '$lib/divisaoStore';
+	import bootstrap from 'bootstrap';
 	interface Props {
-		despesas: IDespesa[];
+		divisaoStore: DivisaoStore;
 	}
-	let { despesas } = $props<Props>();
+
+	let { divisaoStore } = $props<Props>();
+	const despesas = divisaoStore.despesas;
 	const formatter = Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+	const modal = new bootstrap.Modal('#exampleModal');
+
+	let novaDespesa: IDespesa = $state({
+		id: Math.floor(Math.random() * 100000) + 1,
+		valor: 0,
+		descricao: ''
+	});
+
+	let loading = $state(false);
+
+	const limparCampos = () => {
+		novaDespesa = {
+			id: Math.floor(Math.random() * 100000) + 1,
+			valor: 0,
+			descricao: ''
+		};
+	};
+
+	let titulo = $state('Adicionar nova despesa');
+
+	async function adicionarDespesa() {
+		loading = true;
+		limparCampos();
+		modal.hide();
+	}
 </script>
 
 <h1 class="mb-5">Despesas</h1>
+
+<!-- Button trigger modal -->
+<button
+	type="button"
+	class="mb-1 btn btn-primary"
+	data-bs-toggle="modal"
+	data-bs-target="#exampleModal"
+	onclick={limparCampos}
+>
+	Adicionar Nova Despesa
+</button>
+
 <table class="table table-striped table-bordered">
 	<thead>
 		<tr>
@@ -21,10 +62,49 @@
 				<td>{formatter.format(despesa.valor)}</td>
 				<td>{despesa.descricao}</td>
 				<td>
-					<button class="btn btn-primary">Editar</button>
-					<button class="btn btn-danger">Excluir</button>
+					<button class="mb-1 btn btn-primary">Editar</button>
+					<button class="mb-1 btn btn-danger">Excluir</button>
 				</td>
 			</tr>
 		{/each}
 	</tbody>
 </table>
+
+<!-- Modal -->
+<div
+	class="modal fade"
+	id="exampleModal"
+	tabindex="-1"
+	aria-labelledby="exampleModalLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">{titulo}</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form method="post" action="?/despesa">
+					<div class="mb-3">
+						<label for="valor" class="form-label">Valor</label>
+						<input type="number" class="form-control" id="valor" bind:value={novaDespesa.valor} />
+					</div>
+					<div class="mb-3">
+						<label for="descricao" class="form-label">Descrição</label>
+						<input
+							type="text"
+							class="form-control"
+							id="descricao"
+							bind:value={novaDespesa.descricao}
+						/>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>

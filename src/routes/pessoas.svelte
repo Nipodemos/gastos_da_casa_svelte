@@ -20,13 +20,13 @@
 				<div class="list-group-item">Salário Bruto: {formatter.format(pessoa.salario)}</div>
 				<div class="list-group-item">Alimentação: {formatter.format(pessoa.valorAlimentacao)}</div>
 				<div class="list-group-item">
-					INSS: {formatter.format(divisaoStore.valorInssPorPessoa(pessoa))} ({pessoa.porcentagemTaxaInss}%)
+					INSS: {formatter.format(divisaoStore.getValorInssPorPessoa(pessoa))} ({pessoa.porcentagemTaxaInss}%)
 				</div>
 				<div class="list-group-item">
-					Passagem: {formatter.format(divisaoStore.valorTaxaPassagemPorPessoa(pessoa))} ({pessoa.porcentagemTaxaPassagem}%)
+					Passagem: {formatter.format(divisaoStore.getValorTaxaPassagemPorPessoa(pessoa))} ({pessoa.porcentagemTaxaPassagem}%)
 				</div>
 				<div class="list-group-item">
-					Salário líquido: {formatter.format(divisaoStore.salarioLiquido(pessoa))}
+					Salário líquido: {formatter.format(divisaoStore.getSalarioLiquido(pessoa))}
 				</div>
 			</div>
 		</div>
