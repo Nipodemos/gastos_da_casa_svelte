@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { DivisaoStore } from '$lib/divisaoStore';
-	import bootstrap from 'bootstrap';
+	//	import bootstrap from 'bootstrap';
 	interface Props {
 		divisaoStore: DivisaoStore;
 	}
@@ -8,7 +8,7 @@
 	let { divisaoStore } = $props<Props>();
 	const despesas = divisaoStore.despesas;
 	const formatter = Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-	const modal = new bootstrap.Modal('#exampleModal');
+	//	const modal = new bootstrap.Modal('#exampleModal');
 
 	let novaDespesa: IDespesa = $state({
 		id: Math.floor(Math.random() * 100000) + 1,
@@ -31,7 +31,7 @@
 	async function adicionarDespesa() {
 		loading = true;
 		limparCampos();
-		modal.hide();
+		//modal.hide();
 	}
 </script>
 
