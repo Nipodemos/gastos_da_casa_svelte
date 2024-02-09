@@ -1,6 +1,5 @@
 import type { PageServerLoad } from './$types';
 import { env } from '$env/dynamic/private';
-import type { Actions } from '@sveltejs/kit';
 export const load: PageServerLoad = async () => {
 	console.log(env.DEPLOYMENT_SPECIFIC_VARIABLE);
 	const apiPassword = env.API_PASSWORD;
@@ -20,8 +19,3 @@ export const load: PageServerLoad = async () => {
 
 	return jsonBin;
 };
-export const actions = {
-	despesa: async (event) => {
-		// TODO log the user in
-	}
-} satisfies Actions;
