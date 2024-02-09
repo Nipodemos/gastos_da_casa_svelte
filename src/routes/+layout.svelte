@@ -9,7 +9,6 @@
 		children: any;
 	}
 	let { children, data } = $props<Props>();
-	$inspect(data.pessoas);
 	createDivisaoStore(data.pessoas, data.despesas);
 </script>
 
