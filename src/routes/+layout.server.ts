@@ -1,7 +1,6 @@
-import type { PageServerLoad } from './$types';
+import type { LayoutServerLoad } from './$types';
 import { env } from '$env/dynamic/private';
-export const load: PageServerLoad = async () => {
-	console.log(env.DEPLOYMENT_SPECIFIC_VARIABLE);
+export const load: LayoutServerLoad = async () => {
 	const apiPassword = env.API_PASSWORD;
 	const apiBinKey = env.API_BIN_KEY;
 	if (!apiPassword || !apiBinKey) {
