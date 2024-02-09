@@ -1,18 +1,17 @@
 <script lang="ts">
-	import { DivisaoStore } from '$lib/divisaoStore';
+	import { getDivisaoStore } from '$lib/divisaoStore.svelte';
+
 	import Despesas from './despesas.svelte';
 	import Divisao from './divisao.svelte';
 	import Pessoas from './pessoas.svelte';
 
-	let { data } = $props();
-	$inspect(data.pessoas);
-	let divisaoStore = new DivisaoStore(data.pessoas, data.despesas);
+	const divisaoStore = getDivisaoStore();
 </script>
 
 <div class="container">
-	<div class="despesas"><Despesas {divisaoStore} /></div>
-	<div class="divisao"><Divisao {divisaoStore} /></div>
-	<div class="pessoas"><Pessoas {divisaoStore} /></div>
+	<div class="despesas"><Despesas /></div>
+	<div class="divisao"><Divisao /></div>
+	<div class="pessoas"><Pessoas /></div>
 </div>
 
 <style>

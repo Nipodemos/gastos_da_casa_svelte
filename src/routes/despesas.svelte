@@ -1,14 +1,11 @@
 <script lang="ts">
-	import type { DivisaoStore } from '$lib/divisaoStore';
+	import { getDivisaoStore, type DivisaoStore } from '$lib/divisaoStore.svelte';
 	//	import bootstrap from 'bootstrap';
-	interface Props {
-		divisaoStore: DivisaoStore;
-	}
 
-	let { divisaoStore } = $props<Props>();
-	const despesas = divisaoStore.despesas;
 	const formatter = Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 	//	const modal = new bootstrap.Modal('#exampleModal');
+	const divisaoStore = getDivisaoStore();
+	const despesas = divisaoStore.despesas;
 
 	let novaDespesa: IDespesa = $state({
 		id: Math.floor(Math.random() * 100000) + 1,
@@ -57,16 +54,22 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each despesas as despesa}
+		{#if !despesas}
 			<tr>
-				<td>{formatter.format(despesa.valor)}</td>
-				<td>{despesa.descricao}</td>
-				<td>
-					<button class="mb-1 btn btn-primary">Editar</button>
-					<button class="mb-1 btn btn-danger">Excluir</button>
-				</td>
+				<td colSpan="3">Nenhuma despesa cadastrada</td>
 			</tr>
-		{/each}
+		{:else}
+			{#each despesas as despesa}
+				<tr>
+					<td>{formatter.format(despesa.valor)}</td>
+					<td>{despesa.descricao}</td>
+					<td>
+						<button class="mb-1 btn btn-primary">Editar</button>
+						<button class="mb-1 btn btn-danger">Excluir</button>
+					</td>
+				</tr>
+			{/each}
+		{/if}
 	</tbody>
 </table>
 
