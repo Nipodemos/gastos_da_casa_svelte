@@ -3,9 +3,14 @@ import { getContext, setContext } from 'svelte';
 export class DivisaoStore {
 	public pessoas = $state<IPessoa[]>();
 	public despesas = $state<IDespesa[]>();
+
+	public initialPessoas: IPessoa[];
+	public initialDespesas: IDespesa[];
 	constructor(pessoas: IPessoa[], despesas: IDespesa[]) {
 		this.pessoas = pessoas;
 		this.despesas = despesas;
+		this.initialPessoas = pessoas;
+		this.initialDespesas = despesas;
 	}
 	public getValorPorPessoa(pessoa: IPessoa) {
 		const valorTotalDespesas = this.getValorTotalDespesas();
