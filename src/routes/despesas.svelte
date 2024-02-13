@@ -1,49 +1,15 @@
 <script lang="ts">
 	import { getDivisaoStore, type DivisaoStore } from '$lib/divisaoStore.svelte';
-	//	import bootstrap from 'bootstrap';
 
 	const formatter = Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-	//	const modal = new bootstrap.Modal('#exampleModal');
 	const divisaoStore = getDivisaoStore();
 	const despesas = divisaoStore.despesas;
-
-	let novaDespesa: IDespesa = $state({
-		id: Math.floor(Math.random() * 100000) + 1,
-		valor: 0,
-		descricao: ''
-	});
-
-	let loading = $state(false);
-
-	const limparCampos = () => {
-		novaDespesa = {
-			id: Math.floor(Math.random() * 100000) + 1,
-			valor: 0,
-			descricao: ''
-		};
-	};
-
-	let titulo = $state('Adicionar nova despesa');
-
-	async function adicionarDespesa() {
-		loading = true;
-		limparCampos();
-		//modal.hide();
-	}
 </script>
 
 <h1 class="mb-5">Despesas</h1>
 
 <!-- Button trigger modal -->
-<button
-	type="button"
-	class="mb-1 btn btn-primary"
-	data-bs-toggle="modal"
-	data-bs-target="#exampleModal"
-	onclick={limparCampos}
->
-	Adicionar Nova Despesa
-</button>
+<a href="/alterar_despesa" class="mb-1 btn btn-primary"> Adicionar Nova Despesa </a>
 
 <table class="table table-striped table-bordered">
 	<thead>
@@ -64,7 +30,15 @@
 					<td>{formatter.format(despesa.valor)}</td>
 					<td>{despesa.descricao}</td>
 					<td>
-						<a href={'/alterar_despesa?id=' + despesa.id} class="mb-1 btn btn-primary">Editar</a>
+						<a
+							href={'/alterar_despesa?' +
+								new URLSearchParams({
+									id: despesa.id.toString(),
+									descricao: despesa.descricao,
+									valor: despesa.valor.toString()
+								}).toString()}
+							class="mb-1 btn btn-primary">Editar</a
+						>
 						<button class="mb-1 btn btn-danger">Excluir</button>
 					</td>
 				</tr>
