@@ -3,7 +3,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
 import type { PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
-import { getDivisaoStore } from '$lib/divisaoStore.svelte';
+import { JsonDatabase } from '$lib/database';
 
 const schema = z.object({
 	id: z.number(),
@@ -39,8 +39,13 @@ export const actions = {
 			valor: form.data.valor
 		};
 
-		const divisaoStore = getDivisaoStore();
-		const result = divisaoStore.alterarDespesa(novaDespesa);
+		const jsonDatabase = new JsonDatabase();
+		const jsonBin = await jsonDatabase.getAll();
+		const despesas = jsonBin.despesas;
+		const index = despesas.findIndex((d) => d.id === novaDespesa.id);
+		despesas[index] = novaDespesa;
+		jsonBin.despesas = despesas;
+		const result = await jsonDatabase.save(jsonBin.pessoas, jsonBin.despesas);
 
 		if (!result) {
 			return fail(500, { form });

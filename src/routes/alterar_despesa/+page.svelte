@@ -1,21 +1,17 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
 	import SuperDebug from 'sveltekit-superforms';
 
-	const { data } = $props();
+	export let data;
 
 	const { form, errors, constraints, enhance } = superForm(data.form);
 
-	const url = $page.url;
-	let idParam = url.searchParams.get('id');
-	let title = $state(idParam ? 'Alterar Despesa' : 'Adicionar Despesa');
+	//let title = idParam ? 'Alterar Despesa' : 'Adicionar Despesa';
 </script>
 
-<h1 class="text-center">{title}</h1>
+<h1 class="text-center">Adiciona Despesa</h1>
 <SuperDebug data={$form} />
 <form
-	action=""
 	method="POST"
 	class="container d-flex flex-column justify-content-center align-items-center"
 	use:enhance
@@ -32,7 +28,9 @@
 			{...$constraints.descricao}
 			class="form-control"
 		/>
-		<div class="invalid-feedback">{$errors?.descricao}</div>
+		{#if $errors?.descricao}
+			<div class="invalid-feedback">{$errors?.descricao}</div>
+		{/if}
 	</div>
 
 	<div class="mb-3">
@@ -45,7 +43,9 @@
 			{...$constraints.valor}
 			class="form-control"
 		/>
-		<div class="invalid-feedback">{$errors?.valor}</div>
+		{#if $errors?.valor}
+			<div class="invalid-feedback">{$errors?.valor}</div>
+		{/if}
 	</div>
 
 	<div class="">

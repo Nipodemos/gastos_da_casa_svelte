@@ -1,4 +1,5 @@
 import { getContext, setContext } from 'svelte';
+import jsonMergePatch from 'json-merge-patch';
 
 export class DivisaoStore {
 	public pessoas = $state<IPessoa[]>();
@@ -79,6 +80,17 @@ export class DivisaoStore {
 		const index = this.despesas.findIndex((d) => d.id === despesa.id);
 		if (index === -1) return false;
 		this.despesas[index] = despesa;
+		const initalJsonBin = {
+			despesas: this.initialDespesas,
+			pessoas: this.initialPessoas
+		};
+		const currentJsonBin = {
+			despesas: this.despesas,
+			pessoas: this.pessoas
+		};
+		const patch = jsonMergePatch.generate(initalJsonBin, currentJsonBin);
+		console.log(patch);
+
 		return true;
 	}
 }
